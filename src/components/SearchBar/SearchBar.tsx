@@ -1,25 +1,26 @@
-import css from "./SearchBar.module.css";
+import css from './SearchBar.module.css';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface SearchBarProps {
-    onSubmit: (query: string) => void;
+  onSubmit: (query: string) => void;
 }
 
-export default function SearchBar ({onSubmit}: SearchBarProps) {
-   const handleSubmin = (formData: FormData) => {
-    const query = formData.get("query") as string;
+export default function SearchBar({ onSubmit }: SearchBarProps) {
+  const handleSubmin = (formData: FormData) => {
+    const query = formData.get('query') as string;
 
     const queryTrimmed = query.trim();
 
     if (queryTrimmed === '') {
-        toast.error('Please enter your search query.')
-        return
-    };
+      toast.error('Please enter your search query.');
+      return;
+    }
 
     onSubmit(queryTrimmed);
-   }
+  };
 
-    return <header className={css.header}>
+  return (
+    <header className={css.header}>
       <div className={css.container}>
         <a
           className={css.link}
@@ -27,7 +28,7 @@ export default function SearchBar ({onSubmit}: SearchBarProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-         Powered by TMDB
+          Powered by TMDB
         </a>
         <form className={css.form} action={handleSubmin}>
           <input
@@ -37,13 +38,13 @@ export default function SearchBar ({onSubmit}: SearchBarProps) {
             autoComplete="off"
             placeholder="Search movies..."
             autoFocus
-        />
-        <button className={css.button} type="submit">
-           Search 
-        </button>
-        <Toaster />
+          />
+          <button className={css.button} type="submit">
+            Search
+          </button>
+          <Toaster />
         </form>
       </div>
     </header>
-    
+  );
 }
