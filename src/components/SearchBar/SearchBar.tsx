@@ -1,17 +1,17 @@
+import React from 'react';
 import css from './SearchBar.module.css';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface SearchBarProps {
   onSubmit: (query: string) => void;
 }
 
-export default function SearchBar({ onSubmit }: SearchBarProps) {
-  const handleSubmin = (formData: FormData) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
+  const handleSubmit = (formData: FormData): void => {
     const query = formData.get('query') as string;
-
     const queryTrimmed = query.trim();
 
-    if (queryTrimmed === '') {
+    if (!queryTrimmed) {
       toast.error('Please enter your search query.');
       return;
     }
@@ -30,7 +30,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
         >
           Powered by TMDB
         </a>
-        <form className={css.form} action={handleSubmin}>
+        <form className={css.form} action={handleSubmit}>
           <input
             className={css.input}
             type="text"
@@ -42,9 +42,10 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
           <button className={css.button} type="submit">
             Search
           </button>
-          <Toaster />
         </form>
       </div>
     </header>
   );
-}
+};
+
+export default SearchBar;
