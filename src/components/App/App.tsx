@@ -23,11 +23,12 @@ export default function App() {
     placeholderData: keepPreviousData,
   });
 
+  // Додаємо query до залежностей, щоб toast скидався при кожній зміні запиту
   useEffect(() => {
-    if (data && data.results.length === 0) {
+    if (query && data && data.results.length === 0) {
       toast('No movies found for your request.');
     }
-  }, [data]);
+  }, [data, query]);
 
   const handleSubmit = (newQuery: string) => {
     setQuery(newQuery);
@@ -37,8 +38,12 @@ export default function App() {
   return (
     <>
       <SearchBar onSubmit={handleSubmit} />
-      {isPending && <Loader />}
+
+      {/* Відображення Loader: показуємо його, якщо запит є та наразі очікується завантаження, і при цьому data ще немає */}
+      {query && isPending && !data && <Loader />}
+
       {isError && <ErrorMessage />}
+
       {isSuccess && data.results.length > 0 && (
         <>
           {data.total_pages > 1 && (
@@ -60,6 +65,7 @@ export default function App() {
           />
         </>
       )}
+
       {selectedMovie && (
         <MovieModal
           movie={selectedMovie}
